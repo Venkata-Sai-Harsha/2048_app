@@ -6,10 +6,14 @@ class ServerException implements Exception {
 
 class CacheException implements Exception {
   final String message;
-  const CacheException([this.message = 'Failed to load or save local storage data.']);
+  const CacheException([
+    this.message = 'Failed to load or save local storage data.',
+  ]);
 }
 
 class GameLogicException implements Exception {
   final String message;
-  const GameLogicException([this.message = 'Invalid game state or illegal move operation.']);
+  const GameLogicException([
+    this.message = 'Invalid game state or illegal move operation.',
+  ]);
 }

@@ -14,4 +14,3 @@ class CacheFailure extends Failure {
 class GameFailure extends Failure {
   const GameFailure([super.message]);
 }
-

@@ -7,7 +7,7 @@ class GetHighScoreUseCase implements UseCase<int, NoParams> {
   GetHighScoreUseCase(this.repository);
 
   @override
-  Future<int> call(NoParams params) async {
+  Future<int> call([NoParams? params]) async {
     return await repository.getHighScore();
   }
 }

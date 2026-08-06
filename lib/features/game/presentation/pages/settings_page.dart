@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:my_app/core/services/audio_haptic_service.dart';
 import 'package:my_app/core/theme/app_colors.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -10,13 +12,16 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  bool _soundEnabled = true;
-  bool _vibrationEnabled = true;
+  late bool _soundEnabled;
+  late bool _vibrationEnabled;
   String _appVersion = 'Loading...';
 
   @override
   void initState() {
     super.initState();
+    final service = context.read<AudioHapticService>();
+    _soundEnabled = service.isSoundEnabled;
+    _vibrationEnabled = service.isVibrationEnabled;
     _loadAppVersion();
   }
 
@@ -37,6 +42,20 @@ class _SettingsPageState extends State<SettingsPage> {
     }
   }
 
+  void _onSoundChanged(bool val) {
+    setState(() {
+      _soundEnabled = val;
+    });
+    context.read<AudioHapticService>().setSoundEnabled(val);
+  }
+
+  void _onVibrationChanged(bool val) {
+    setState(() {
+      _vibrationEnabled = val;
+    });
+    context.read<AudioHapticService>().setVibrationEnabled(val);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,22 +67,14 @@ class _SettingsPageState extends State<SettingsPage> {
             title: const Text('Sound Effects'),
             value: _soundEnabled,
             activeThumbColor: AppColors.buttonBackground,
-            onChanged: (val) {
-              setState(() {
-                _soundEnabled = val;
-              });
-            },
+            onChanged: _onSoundChanged,
           ),
           const Divider(),
           SwitchListTile(
             title: const Text('Haptic Vibration'),
             value: _vibrationEnabled,
             activeThumbColor: AppColors.buttonBackground,
-            onChanged: (val) {
-              setState(() {
-                _vibrationEnabled = val;
-              });
-            },
+            onChanged: _onVibrationChanged,
           ),
           const Divider(),
           ListTile(

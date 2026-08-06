@@ -37,7 +37,7 @@ class ScoreBoardWidget extends StatelessWidget {
           Text(
             label,
             style: const TextStyle(
-              color: AppColors.emptyTileBackground,
+              color: AppColors.scoreLabelText,
               fontSize: 12,
               fontWeight: FontWeight.bold,
               letterSpacing: 1.1,

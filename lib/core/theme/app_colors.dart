@@ -11,6 +11,7 @@ class AppColors {
 
   // Text Colors
   static const Color darkText = Color(0xFF776E65);
+  static const Color scoreLabelText = Color(0xFFEEE4DA);
   static const Color lightText = Color(0xFFF9F6F2);
 
   // 2048 Tile Colors

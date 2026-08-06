@@ -40,6 +40,8 @@ dependencies:
   shared_preferences: ^2.5.5
   package_info_plus: ^8.3.0
   google_fonts: ^8.2.1
+  audioplayers: ^6.1.0
+  vibration: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -72,6 +74,8 @@ flutter:
 
   assets:
     - assets/icon/app_icon.png
+    - assets/sounds/move.wav
+    - assets/sounds/merge.wav
 
   # To add assets to your application, add an assets section, like this:
   # assets:

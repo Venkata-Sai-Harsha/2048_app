@@ -40,22 +40,8 @@ android {
             }
         }
     }
-
-    packaging {
-        jniLibs {
-            keepDebugSymbols.add("**/*.so")
-        }
-    }
 }
 
 flutter {
     source = "../.."
-}
-
-gradle.taskGraph.whenReady {
-    allTasks.forEach { task ->
-        if (task.name.lowercase().contains("strip") && task.name.lowercase().contains("debug")) {
-            task.enabled = false
-        }
-    }
 }

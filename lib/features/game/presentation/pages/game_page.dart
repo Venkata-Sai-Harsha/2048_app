@@ -12,6 +12,8 @@ import 'package:my_app/features/game/presentation/widgets/game_board_widget.dart
 import 'package:my_app/features/game/presentation/widgets/game_controls_widget.dart';
 import 'package:my_app/features/game/presentation/widgets/score_board_widget.dart';
 
+import 'package:my_app/core/services/audio_haptic_service.dart';
+
 class GamePage extends StatefulWidget {
   const GamePage({super.key});
 
@@ -99,7 +101,21 @@ class _GamePageState extends State<GamePage> {
             ),
           ],
         ),
-        body: BlocBuilder<GameBloc, GameState>(
+        body: BlocConsumer<GameBloc, GameState>(
+          listener: (context, state) {
+            final audioHaptic = context.read<AudioHapticService>();
+            if (state is GameLoaded) {
+              if (state.previousBoard != null) {
+                final merged = state.board.score > state.previousBoard!.score;
+                audioHaptic.onTileMove(merged: merged);
+              }
+              if (state.board.isGameOver) {
+                audioHaptic.onGameOver();
+              }
+            } else if (state is GameOverState) {
+              audioHaptic.onGameOver();
+            }
+          },
           builder: (context, state) {
             if (state is GameLoading || state is GameInitial) {
               return const Center(child: CircularProgressIndicator());

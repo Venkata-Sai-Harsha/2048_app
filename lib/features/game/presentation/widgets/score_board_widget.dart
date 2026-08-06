@@ -19,7 +19,7 @@ class ScoreBoardWidget extends StatelessWidget {
       children: [
         _buildScoreBox('SCORE', score),
         const SizedBox(width: 12),
-        _buildScoreBox('BEST', highScore),
+        _buildScoreBox('HIGH SCORE', highScore),
       ],
     );
   }

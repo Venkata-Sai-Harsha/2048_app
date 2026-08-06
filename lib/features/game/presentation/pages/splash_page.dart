@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/core/theme/app_colors.dart';
-import 'home_page.dart';
+import 'package:my_app/features/game/presentation/pages/game_page.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -17,7 +17,7 @@ class _SplashPageState extends State<SplashPage> {
       if (mounted) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const HomePage()),
+          MaterialPageRoute(builder: (context) => const GamePage()),
         );
       }
     });

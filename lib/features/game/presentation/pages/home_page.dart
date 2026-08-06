@@ -17,7 +17,7 @@ class HomePage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: <Widget>[
                 // 2048 Title Tile
                 Container(
                   width: 140,
@@ -77,20 +77,6 @@ class HomePage extends StatelessWidget {
                   child: OutlinedButton.icon(
                     icon: const Icon(Icons.emoji_events_rounded),
                     label: const Text('High Score'),
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: AppColors.buttonBackground,
-                      side: const BorderSide(
-                        color: AppColors.buttonBackground,
-                        width: 2,
-                      ),
-                      textStyle: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                    ),
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -110,9 +96,6 @@ class HomePage extends StatelessWidget {
                       child: TextButton.icon(
                         icon: const Icon(Icons.help_outline),
                         label: const Text('How to Play'),
-                        style: TextButton.styleFrom(
-                          foregroundColor: AppColors.darkText,
-                        ),
                         onPressed: () {
                           Navigator.push(
                             context,
@@ -127,9 +110,6 @@ class HomePage extends StatelessWidget {
                       child: TextButton.icon(
                         icon: const Icon(Icons.settings),
                         label: const Text('Settings'),
-                        style: TextButton.styleFrom(
-                          foregroundColor: AppColors.darkText,
-                        ),
                         onPressed: () {
                           Navigator.push(
                             context,

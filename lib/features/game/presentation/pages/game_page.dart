@@ -6,7 +6,10 @@ import 'package:my_app/features/game/domain/entities/board.dart';
 import 'package:my_app/features/game/presentation/bloc/game_bloc.dart';
 import 'package:my_app/features/game/presentation/bloc/game_event.dart';
 import 'package:my_app/features/game/presentation/bloc/game_state.dart';
+import 'package:my_app/features/game/presentation/pages/how_to_play_page.dart';
+import 'package:my_app/features/game/presentation/pages/settings_page.dart';
 import 'package:my_app/features/game/presentation/widgets/game_board_widget.dart';
+import 'package:my_app/features/game/presentation/widgets/game_controls_widget.dart';
 import 'package:my_app/features/game/presentation/widgets/score_board_widget.dart';
 
 class GamePage extends StatefulWidget {
@@ -82,13 +85,16 @@ class _GamePageState extends State<GamePage> {
       onKeyEvent: _handleKeyEvent,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('2048'),
           actions: [
             IconButton(
-              icon: const Icon(Icons.refresh),
-              tooltip: 'Restart Game',
+              color: AppColors.darkText,
+              tooltip: "Settings",
+              icon: const Icon(Icons.settings),
               onPressed: () {
-                context.read<GameBloc>().add(const RestartGameEvent());
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SettingsPage()),
+                );
               },
             ),
           ],
@@ -105,12 +111,16 @@ class _GamePageState extends State<GamePage> {
 
             Board? board;
             bool isGameOver = false;
+            bool canUndo = false;
 
             if (state is GameLoaded) {
               board = state.board;
+              canUndo = state.canUndo;
+              isGameOver = board.isGameOver;
             } else if (state is GameOverState) {
               board = state.board;
               isGameOver = true;
+              canUndo = false;
             }
 
             if (board == null) return const SizedBox.shrink();
@@ -130,36 +140,38 @@ class _GamePageState extends State<GamePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    // Score display and Controls
+                    // Header: 2048 Title on Left, Scores & Controls on Right
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          ScoreBoardWidget(
-                            score: board.score,
-                            highScore: board.highScore,
+                          const Text(
+                            '2048',
+                            style: TextStyle(
+                              fontSize: 52,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.darkText,
+                            ),
                           ),
-                          Row(
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              IconButton(
-                                icon: const Icon(Icons.undo),
-                                tooltip: 'Undo Move',
-                                color: AppColors.buttonBackground,
-                                onPressed:
-                                    (state is GameLoaded && state.canUndo)
-                                    ? () => context.read<GameBloc>().add(
-                                        const UndoMoveEvent(),
-                                      )
-                                    : null,
+                              ScoreBoardWidget(
+                                score: board.score,
+                                highScore: board.highScore,
                               ),
-                              ElevatedButton(
-                                onPressed: () {
-                                  context.read<GameBloc>().add(
-                                    const RestartGameEvent(),
-                                  );
-                                },
-                                child: const Text('New Game'),
+                              const SizedBox(height: 8),
+                              GameControlsWidget(
+                                canUndo: canUndo,
+                                isGameOver: isGameOver,
+                                onUndo: () => context.read<GameBloc>().add(
+                                  const UndoMoveEvent(),
+                                ),
+                                onRestart: () => context.read<GameBloc>().add(
+                                  const RestartGameEvent(),
+                                ),
                               ),
                             ],
                           ),
@@ -228,17 +240,33 @@ class _GamePageState extends State<GamePage> {
                         ],
                       ),
                     ),
-
-                    // Instructions hint
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Text(
-                        'Swipe or use Arrow Keys to join matching tiles!',
-                        style: TextStyle(
-                          color: AppColors.darkText,
-                          fontSize: 14,
-                        ),
-                        textAlign: TextAlign.center,
+                    Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const HowToPlayPage(),
+                                ),
+                              );
+                            },
+                            icon: const Icon(Icons.help_outline),
+                            tooltip: 'How to Play',
+                          ),
+                          const SizedBox(width: 2),
+                          // Instructions hint
+                          const Text(
+                            'Swipe or use Arrow Keys to join matching tiles!',
+                            style: TextStyle(
+                              color: AppColors.darkText,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:my_app/core/theme/app_colors.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -11,6 +12,30 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   bool _soundEnabled = true;
   bool _vibrationEnabled = true;
+  String _appVersion = 'Loading...';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAppVersion();
+  }
+
+  Future<void> _loadAppVersion() async {
+    try {
+      final packageInfo = await PackageInfo.fromPlatform();
+      if (mounted) {
+        setState(() {
+          _appVersion = '${packageInfo.version}+${packageInfo.buildNumber}';
+        });
+      }
+    } catch (_) {
+      if (mounted) {
+        setState(() {
+          _appVersion = '1.0.0+1';
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,11 +66,11 @@ class _SettingsPageState extends State<SettingsPage> {
             },
           ),
           const Divider(),
-          const ListTile(
-            title: Text('Version'),
+          ListTile(
+            title: const Text('Version'),
             trailing: Text(
-              '1.0.0',
-              style: TextStyle(color: AppColors.darkText),
+              _appVersion,
+              style: const TextStyle(color: AppColors.darkText),
             ),
           ),
         ],

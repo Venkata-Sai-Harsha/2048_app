@@ -54,8 +54,8 @@ class GameBoardWidget extends StatelessWidget {
           for (final tile in board.tiles)
             AnimatedPositioned(
               key: ValueKey(tile.id),
-              duration: const Duration(milliseconds: 150),
-              curve: Curves.easeInOut,
+              duration: const Duration(milliseconds: 140),
+              curve: Curves.easeInOutCubic,
               left: tile.col * (tileSize + spacing),
               top: tile.row * (tileSize + spacing),
               child: TileWidget(tile: tile, tileSize: tileSize),

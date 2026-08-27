@@ -96,13 +96,14 @@ class Board extends Equatable {
           final newValue = currentTile.value * 2;
           addedScore += newValue;
 
-          // Merge into a new tile at target position
+          // Merge into a tile at target position, preserving primary tile's ID for smooth slide animation
           newTiles.add(
             Tile(
-              id: '${DateTime.now().microsecondsSinceEpoch}_${targetPt.x}_${targetPt.y}_$newValue',
+              id: currentTile.id,
               value: newValue,
               row: targetPt.x,
               col: targetPt.y,
+              isNew: false,
               isMerged: true,
             ),
           );

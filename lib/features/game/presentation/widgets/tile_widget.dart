@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/core/constants/app_dimensions.dart';
 import 'package:my_app/core/theme/app_colors.dart';
 import 'package:my_app/features/game/domain/entities/tile.dart';
 
@@ -23,7 +24,7 @@ class _TileWidgetState extends State<TileWidget>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 200),
+      duration: AppDimensions.tileSpawnDuration,
     );
     _setupAnimation();
   }
@@ -40,6 +41,7 @@ class _TileWidgetState extends State<TileWidget>
 
   void _setupAnimation() {
     if (widget.tile.isNew) {
+      _controller.duration = AppDimensions.tileSpawnDuration;
       _scaleAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(parent: _controller, curve: Curves.easeOutBack),
       );
@@ -52,6 +54,7 @@ class _TileWidgetState extends State<TileWidget>
   }
 
   void _triggerMergePop() {
+    _controller.duration = AppDimensions.tileMergeDuration;
     _scaleAnimation = TweenSequence<double>([
       TweenSequenceItem(
         tween: Tween<double>(begin: 1.0, end: 1.18).chain(
@@ -91,7 +94,7 @@ class _TileWidgetState extends State<TileWidget>
     return ScaleTransition(
       scale: _scaleAnimation,
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 140),
+        duration: AppDimensions.tileMoveDuration,
         curve: Curves.easeInOut,
         width: widget.tileSize,
         height: widget.tileSize,

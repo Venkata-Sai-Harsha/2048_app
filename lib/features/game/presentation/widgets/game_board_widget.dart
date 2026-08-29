@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/core/constants/app_dimensions.dart';
 import 'package:my_app/core/theme/app_colors.dart';
 import 'package:my_app/features/game/domain/entities/board.dart';
 import 'tile_widget.dart';
@@ -54,7 +55,7 @@ class GameBoardWidget extends StatelessWidget {
           for (final tile in board.tiles)
             AnimatedPositioned(
               key: ValueKey(tile.id),
-              duration: const Duration(milliseconds: 140),
+              duration: AppDimensions.tileMoveDuration,
               curve: Curves.easeInOutCubic,
               left: tile.col * (tileSize + spacing),
               top: tile.row * (tileSize + spacing),

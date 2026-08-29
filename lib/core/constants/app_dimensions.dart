@@ -15,6 +15,6 @@ class AppDimensions {
   // Animation Durations
   static const Duration tileAnimationDuration = Duration(milliseconds: 200);
   static const Duration tileMoveDuration = Duration(milliseconds: 200);
-  static const Duration tileSpawnDuration = Duration(milliseconds: 320);
-  static const Duration tileMergeDuration = Duration(milliseconds: 380);
+  static const Duration tileSpawnDuration = Duration(milliseconds: 280);
+  static const Duration tileMergeDuration = Duration(milliseconds: 300);
 }

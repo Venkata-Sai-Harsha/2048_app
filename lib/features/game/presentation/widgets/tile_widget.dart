@@ -42,34 +42,18 @@ class _TileWidgetState extends State<TileWidget>
   void _setupAnimation() {
     if (widget.tile.isNew) {
       _controller.duration = AppDimensions.tileSpawnDuration;
-      _scaleAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-        CurvedAnimation(parent: _controller, curve: Curves.easeOutBack),
-      );
+      _scaleAnimation = Tween<double>(
+        begin: 0.0,
+        end: 1.0,
+      ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
       _controller.forward(from: 0.0);
-    } else if (widget.tile.isMerged) {
-      _triggerMergePop();
     } else {
       _scaleAnimation = const AlwaysStoppedAnimation(1.0);
     }
   }
 
   void _triggerMergePop() {
-    _controller.duration = AppDimensions.tileMergeDuration;
-    _scaleAnimation = TweenSequence<double>([
-      TweenSequenceItem(
-        tween: Tween<double>(begin: 1.0, end: 1.18).chain(
-          CurveTween(curve: Curves.easeOut),
-        ),
-        weight: 50,
-      ),
-      TweenSequenceItem(
-        tween: Tween<double>(begin: 1.18, end: 1.0).chain(
-          CurveTween(curve: Curves.easeIn),
-        ),
-        weight: 50,
-      ),
-    ]).animate(_controller);
-    _controller.forward(from: 0.0);
+    _scaleAnimation = const AlwaysStoppedAnimation(1.0);
   }
 
   @override
@@ -93,9 +77,7 @@ class _TileWidgetState extends State<TileWidget>
 
     return ScaleTransition(
       scale: _scaleAnimation,
-      child: AnimatedContainer(
-        duration: AppDimensions.tileMoveDuration,
-        curve: Curves.easeInOut,
+      child: Container(
         width: widget.tileSize,
         height: widget.tileSize,
         alignment: Alignment.center,

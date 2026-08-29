@@ -56,7 +56,7 @@ class GameBoardWidget extends StatelessWidget {
             AnimatedPositioned(
               key: ValueKey(tile.id),
               duration: AppDimensions.tileMoveDuration,
-              curve: Curves.easeInOutCubic,
+              curve: Curves.easeOut,
               left: tile.col * (tileSize + spacing),
               top: tile.row * (tileSize + spacing),
               child: TileWidget(tile: tile, tileSize: tileSize),

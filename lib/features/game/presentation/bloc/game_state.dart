@@ -30,11 +30,14 @@ class GameLoaded extends GameState {
 
 class GameOverState extends GameState {
   final Board board;
+  final Board? previousBoard;
 
-  const GameOverState(this.board);
+  const GameOverState(this.board, {this.previousBoard});
+
+  bool get canUndo => previousBoard != null;
 
   @override
-  List<Object?> get props => [board];
+  List<Object?> get props => [board, previousBoard];
 }
 
 class GameErrorState extends GameState {

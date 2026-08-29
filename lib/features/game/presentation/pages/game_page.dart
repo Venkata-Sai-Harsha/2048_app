@@ -136,7 +136,7 @@ class _GamePageState extends State<GamePage> {
             } else if (state is GameOverState) {
               board = state.board;
               isGameOver = true;
-              canUndo = false;
+              canUndo = state.canUndo;
             }
 
             if (board == null) return const SizedBox.shrink();
@@ -206,28 +206,85 @@ class _GamePageState extends State<GamePage> {
                               width: boardSize,
                               height: boardSize,
                               decoration: BoxDecoration(
-                                color: Colors.white.withValues(alpha: 0.85),
+                                color: Colors.black.withValues(alpha: 0.65),
                                 borderRadius: BorderRadius.circular(8.0),
                               ),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
+                                  const Icon(
+                                    Icons.block_rounded,
+                                    size: 48,
+                                    color: Colors.white70,
+                                  ),
+                                  const SizedBox(height: 8),
                                   const Text(
                                     'Game Over!',
                                     style: TextStyle(
-                                      fontSize: 36,
+                                      fontSize: 32,
                                       fontWeight: FontWeight.bold,
-                                      color: AppColors.darkText,
+                                      color: Colors.white,
                                     ),
                                   ),
-                                  const SizedBox(height: 16),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      context.read<GameBloc>().add(
-                                        const RestartGameEvent(),
-                                      );
-                                    },
-                                    child: const Text('Try Again'),
+                                  const SizedBox(height: 20),
+                                  Wrap(
+                                    alignment: WrapAlignment.center,
+                                    spacing: 12,
+                                    runSpacing: 8,
+                                    children: [
+                                      if (canUndo)
+                                        ElevatedButton.icon(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor:
+                                                AppColors.buttonBackground,
+                                            foregroundColor:
+                                                AppColors.lightText,
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 16,
+                                              vertical: 10,
+                                            ),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                          ),
+                                          onPressed: () {
+                                            context.read<GameBloc>().add(
+                                              const UndoMoveEvent(),
+                                            );
+                                          },
+                                          icon: const Icon(
+                                            Icons.undo,
+                                            size: 18,
+                                          ),
+                                          label: const Text('Undo Move'),
+                                        ),
+                                      ElevatedButton.icon(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: AppColors.tile64,
+                                          foregroundColor: AppColors.lightText,
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 16,
+                                            vertical: 10,
+                                          ),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                              8,
+                                            ),
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          context.read<GameBloc>().add(
+                                            const RestartGameEvent(),
+                                          );
+                                        },
+                                        icon: const Icon(
+                                          Icons.refresh,
+                                          size: 18,
+                                        ),
+                                        label: const Text('Try Again'),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),

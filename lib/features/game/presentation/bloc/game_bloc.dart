@@ -52,7 +52,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     }
 
     if (updatedBoard.isGameOver) {
-      emit(GameOverState(updatedBoard));
+      emit(GameOverState(updatedBoard, previousBoard: currentBoard));
     } else {
       emit(GameLoaded(board: updatedBoard, previousBoard: currentBoard));
     }
@@ -78,6 +78,11 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   void _onUndoMove(UndoMoveEvent event, Emitter<GameState> emit) {
     if (state is GameLoaded) {
       final currentState = state as GameLoaded;
+      if (currentState.previousBoard != null) {
+        emit(GameLoaded(board: currentState.previousBoard!));
+      }
+    } else if (state is GameOverState) {
+      final currentState = state as GameOverState;
       if (currentState.previousBoard != null) {
         emit(GameLoaded(board: currentState.previousBoard!));
       }
